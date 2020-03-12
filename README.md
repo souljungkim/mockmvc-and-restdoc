@@ -16,10 +16,9 @@
 
 1. You can check and test sample here: 
     - target controller:
-        - `avaj-core-mock/src/test/groovy/com/avajjava/sample/test/controller/MockAndRestDocsTestController.groovy`
+        - [avaj-core-mock/src/test/groovy/com/avajjava/sample/test/controller/MockAndRestDocsTestController.groovy](https://github.com/souljungkim/mockmvc-and-restdoc/blob/master/avaj-core-mock/src/test/groovy/com/avajjava/sample/test/controller/MockAndRestDocsTestController.groovy)
     - sample test:
-        - `avaj-core-mock/src/test/groovy/com/avajjava/sample/test/controller/MockAndRestDocsTestControllerTest.groovy`
-    
+        - [avaj-core-mock/src/test/groovy/com/avajjava/sample/test/controller/MockAndRestDocsTestControllerTest.groovy](https://github.com/souljungkim/mockmvc-and-restdoc/blob/master/avaj-core-mock/src/test/groovy/com/avajjava/sample/test/controller/MockAndRestDocsTestControllerTest.groovy)
 2. It will be parsed to HTML file for documents when it builds. 
     - `avaj-core-mock/src/main/asciidoc/mock-and-rest-docs-test.adoc`
 
@@ -74,10 +73,9 @@ You can check how to setup other modules in `:avaj-engine-service`
       
 2. Check your controller 
     - target controller: 
-        - `avaj-engine-service/src/main/groovy/com/avajjava/sample/controller/ApiDataRestController.groovy`
+        - [avaj-engine-service/src/main/groovy/com/avajjava/sample/controller/ApiDataRestController.groovy](https://github.com/souljungkim/mockmvc-and-restdoc/blob/master/avaj-engine-service/src/main/groovy/com/avajjava/sample/controller/ApiDataRestController.groovy)
     - test controller: 
-        - `avaj-engine-service/src/test/groovy/com/avajjava/sample/controller/ApiDataRestControllerTest.groovy`
-
+        - [avaj-engine-service/src/test/groovy/com/avajjava/sample/controller/ApiDataRestControllerTest.groovy](https://github.com/souljungkim/mockmvc-and-restdoc/blob/master/avaj-engine-service/src/test/groovy/com/avajjava/sample/controller/ApiDataRestControllerTest.groovy)
 3. It will be parsed to HTML file for documents when build packages. 
     - `avaj-engine-service/src/main/asciidoc/other-module-test.adoc`
 
