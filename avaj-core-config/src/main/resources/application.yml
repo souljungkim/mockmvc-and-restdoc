@@ -1,0 +1,110 @@
+###########################################################################
+#
+# IntelliJ에서 실행 할 때
+#   => http://localhost:{server.port}/{server.servlet.context-path}
+#
+###########################################################################
+server:
+    port: 8080
+    servlet.context-path: /tester
+
+##### Test를 위한 설정이다.
+avaj:
+    test.enabled: false
+    app.enabled: true
+
+
+
+###########################################################################
+#
+# Spring
+#
+###########################################################################
+spring:
+
+    ##### Profiles
+    profiles:
+        #   - 현재는 단지 유연한 properties 적용을 위한 용도로 사용중
+        #   - application.yml은 수정금지! (기본값을 유지한다.)
+        #   - application-local.yml: 생성하여 개발자의 Local개발환경에 맞는 설정부분을 추가한다.
+        #   - application-site.yml: 생성하여 Site환경에 맞는 설정부분을 추가한다.
+        active: [
+            engine-search,
+            engine-service,
+            mammoth,
+            ui-tester,
+            local, site, force,
+        ]
+
+
+    ##### Main
+    main:
+        allow-bean-definition-overriding: true
+
+    ##### Spring에서 지원해주는 Request Log    ==> UserAccessFilter에서 더욱 시각적이고 어플리케이션 친화적으로다가 개발하기 편하게 따로 구현하였기 때문에 false 처리
+    http:
+        log-request-details: false
+
+    ##### Multipart properties
+    servlet:
+        multipart:
+            max-file-size: 200MB
+            max-request-size: 215MB
+
+    ##### View Template - UI-TEST모듈에서 테스트를 위한 임시 설정
+    thymeleaf:
+        cache: false
+        content-type: text/html
+        mode: LEGACYHTML5
+        encoding: UTF-8
+        prefix: classpath:/templates/
+        suffix: .html
+        check-template-location: true
+        order: 0
+
+
+    ##### DevTools
+#    devtools:
+#        livereload:
+#            enabled: false
+
+
+    ##### DataBase Connection Info
+    datasource:
+        ### DB - PostgreSQL
+        url: jdbc:postgresql://192.168.0.18:5432/postgres
+        username: postgres
+        password: postgres
+        driver-class-name: org.postgresql.Driver
+
+        ### DB - Tibero
+#        url: jdbc:tibero:thin:@192.168.0.18:8629:tibero
+#        username: tibero
+#        password: tibero
+#        driver-class-name: com.tmax.tibero.jdbc.TbDriver
+
+        ### DB - MySql
+#        url: jdbc:mysql://192.168.0.18:3306/mysql
+#        username: root
+#        password: mysql
+#        driver-class: org.mysql.jdbc.Driver
+
+
+
+
+
+###########################################################################
+#
+# Logger
+#   - Logback.xml 등 별도의 설정파일에서 Spring관련 설정을 가해도 제대로 처리 되지 않는 부분이가 존재하므로 ==> Spring 관련 Logger 설정은 이곳에서 맡도록 하자.
+###########################################################################
+logging:
+    level:
+        root: INFO
+        org:
+            springframework:
+                session: ERROR
+                boot: INFO
+                web: INFO
+            apache: ERROR
+

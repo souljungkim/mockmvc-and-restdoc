@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+
+    <head>
+        <title>Avaj Now</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <!-- ContextPath -->
+        <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}" />
+        <script>
+            var _ctx = document.getElementsByName('ctx')[0].getAttribute('content');
+            function getURL(url){ return _ctx+ url; }
+        </script>
+        <!-- Favicon -->
+        <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
+        <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
+    </head>
+
+
+
+    <body>
+
+        <!-- //////////////////////////////////////////////////
+        Links
+        ////////////////////////////////////////////////// -->
+        <div>
+            <h1>Links</h1>
+            <div style="border:2px solid black; margin:20px">
+                <a href="./docs">docs</a>
+                <br/>
+            </div>
+        </div>
+
+
+    </body>
+
+
+
+</html>

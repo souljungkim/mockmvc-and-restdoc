@@ -1,0 +1,91 @@
+plugins {
+	id 'war'
+	id 'org.springframework.boot'
+//	id 'io.spring.dependency-management'	// ElasticSearch등 Version 내가 쓰고 싶은거 쓰려고 주석
+}
+
+
+
+bootWar {
+
+	/** 파일명 **/
+	def gitTagVersion = 'git describe --tags --abbrev=0'.execute([], project.projectDir).text.trim() ?: 'TEST'
+	archiveName = "${application_name}-v${gitTagVersion}.war"
+
+	/** 설정파일 **/
+	if (rootProject.findProject('avaj-core-config')){
+		from (project(':avaj-core-config').file('src/main/resources').path){
+			include "application*.yml", "logback*.xml"
+			into 'WEB-INF/classes'
+		}
+	}
+	if (rootProject.findProject('avaj-engine-service')){
+		from (project(':avaj-engine-service').file('src/main/resources').path){
+			include "application-*.yml"
+			into 'WEB-INF/classes'
+		}
+	}
+	//TODO: Change your module
+	if (rootProject.findProject('avaj-module-1')){
+		from (project(':avaj-module-1').file('src/main/resources').path){
+			include "application-*.yml"
+			into 'WEB-INF/classes'
+		}
+	}
+	//TODO: Change your module
+	if (rootProject.findProject('avaj-module-2')){
+		from (project(':avaj-module-2').file('src/main/resources').path){
+			include "application-*.yml"
+			into 'WEB-INF/classes'
+		}
+	}
+}
+//- (WAR빌드시) 개발용 properties설정파일 제외하기
+bootWar.rootSpec.exclude "application-local.yml"
+bootWar.rootSpec.exclude "application-site.yml"
+bootWar.rootSpec.exclude "avaj-core-config*.jar"
+//- (WAR빌드시) 개발용(배포시에는 필요없는) 파일 제외하기
+bootWar.rootSpec.exclude( fileTree(dir: 'external_libs_dev', include: ['*.jar']).collect{ "**/${it.name}" } )
+//- (WAR빌드시) 개발용 Logback설정 파일 이름 바꾸기 (작동 안하도록 말이지. 하지만 필요할 때 쓸 수 있게)
+bootWar.rootSpec.rename("logback-test.xml", "logback-test.xml.bak")
+
+
+
+configurations {
+	all*.exclude module : 'spring-boot-starter-logging'
+	compile.exclude module: 'slf4j-log4j12'
+}
+
+dependencies {
+
+	/** Core **/
+	if (rootProject.findProject('avaj-core'))
+		compile project(':avaj-core')
+
+	/** Core-mock **/
+	if (rootProject.findProject('avaj-core-mock'))
+		compile project(':avaj-core-mock')
+
+	/** Engine-Service **/
+	if (rootProject.findProject('avaj-engine-service'))
+		compile project(':avaj-engine-service')
+
+
+	/** From FileSystem **/
+	//Local File System으로부터 참조(*.jar)
+	compile fileTree(dir: 'external_libs', include: ['*.jar'])
+	//Local File System으로부터 참조(*.jar) - WAR빌드시 제외 (아래 명시 ==> war.rootSpec.exclude(..))
+	compile fileTree(dir: 'external_libs_dev', include: ['*.jar'])
+
+
+
+	/** View Template **/
+	compile "org.springframework.boot:spring-boot-starter-thymeleaf:${springboot_version}"
+
+	/** To deploy to WAS(Tomcat) **/
+	providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springboot_version}"
+
+	/** Test **/
+	testCompile project(':avaj-core-mock')
+
+}

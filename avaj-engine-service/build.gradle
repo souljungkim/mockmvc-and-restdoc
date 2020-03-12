@@ -1,0 +1,70 @@
+plugins {
+	id "org.asciidoctor.convert" version "1.5.9.2"
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor {
+	dependsOn test
+	inputs.dir snippetsDir
+	sourceDir = file('src/main/asciidoc')
+	sources { include '*.adoc' }
+	outputDir = file('build/docs')
+}
+
+
+
+jar {
+	dependsOn asciidoctor
+	from("${asciidoctor.outputDir}/html5"){
+		into 'templates/docs'
+	}
+
+//	def gitTagVersion = 'git describe --tags --abbrev=0'.execute([], project.projectDir).text.trim() ?: 'TEST'
+//	archiveName = "avaj-v${gitTagVersion}.war"
+}
+//- (WAR빌드시) 개발용(배포시에는 필요없는) 파일 제외하기
+jar.rootSpec.exclude( fileTree(dir: 'external_libs_dev', include: ['*.jar']).collect{ "**/${it.name}" } )
+
+
+
+configurations {
+	all*.exclude module : 'spring-boot-starter-logging'
+	compile.exclude module: 'slf4j-log4j12'
+}
+
+dependencies {
+
+	/** Engine-Search **/
+	if (rootProject.findProject('avaj-core'))
+		compile project(':avaj-core')
+
+	/** Avaj-Core-Config **/
+	if (rootProject.findProject('avaj-core-config'))
+		compile project(':avaj-core-config')
+
+	/** Avaj-MyBatis **/
+//	if (rootProject.findProject('avaj-core-mybatis')){
+//		compile project(':avaj-core-mybatis')
+//		compile 'org.postgresql:postgresql:9.2-1004-jdbc41'
+//	}
+
+	/** From FileSystem **/
+	//Local File System으로부터 참조(*.jar)
+	compile fileTree(dir: 'external_libs', include: ['*.jar'])
+	//Local File System으로부터 참조(*.jar) - WAR빌드시 제외 (아래 명시 ==> war.rootSpec.exclude(..))
+	compile fileTree(dir: 'external_libs_dev', include: ['*.jar'])
+
+
+
+	/** Test **/
+	testCompile project(':avaj-core-mock')
+	asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:${springRestDocs_version}"
+
+}

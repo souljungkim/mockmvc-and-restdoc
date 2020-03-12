@@ -1,0 +1,24 @@
+
+dependencies {
+
+    /** Groovy **/
+    compile "org.codehaus.groovy:groovy-all:${groovy_version}"
+
+    /** Logger - LOGBACK **/
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'ch.qos.logback:logback-core:1.2.3'
+    compile 'janino:janino:2.5.10'
+
+    /** Spring **/
+    compile "org.springframework.boot:spring-boot-starter-web:${springboot_version}"
+    compile "org.springframework.boot:spring-boot-starter-aop:${springboot_version}"
+
+    /** AVAJ-JAVA **/
+    compile 'com.github.avaj-java:common-util:0.3.7.4'
+    compile 'com.github.avaj-java:common-man:0.4.1'
+    compile 'com.github.avaj-java:fileman:0.4.0'
+
+    /** Test **/
+    testCompile project(':avaj-core-mock')
+
+}

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+<!--	<property name="LOG_DIR" value="/logs/avajjava"/>-->
+<!--	<property name="LOG_PATH_NAME" value="${LOG_DIR}/avajjava"/>-->
+
+
+
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//	[Appender]
+	//
+	//////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- Console Log -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %highlight(%-5level) %-40logger{40}[%cyan(%-25method):%cyan(%-4line)] %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [all] Develop Console Log -->
+	<appender name="CONSOLE-DEVELOP" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+				<expression>
+					if ( (logger.startsWith("com.avajjava.sample") &amp;&amp; !logger.startsWith("com.avajjava.sample.config"))
+					|| logger.startsWith("com.avajjava.sample.batch")
+					|| logger.startsWith("org.elasticsearch.client.RestClient")
+					|| logger.startsWith("org.springframework.web.servlet.DispatcherServlet")
+					){
+						return false;
+					}
+					return true;
+				</expression>
+			</evaluator>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %highlight(%-5level) %-40logger{40}[%cyan(%-25method):%cyan(%-4line)] %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [org.springframework.web.servlet.DispatcherServlet] Develop Console Log -->
+	<appender name="CONSOLE-DEVELOP-WEB" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+				<expression>
+					if ( logger.startsWith("org.springframework.web.servlet.DispatcherServlet") ){
+						return true;
+					}
+					return false;
+				</expression>
+			</evaluator>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%cyan(%d) %highlight(%-5level) %cyan(%-40logger{40})[%cyan(%-25method):%cyan(%-4line)] %cyan(%msg) %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [com.avajjava.sample.*] Develop Console Log -->
+	<appender name="CONSOLE-DEVELOP-AVAJ" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+				<expression>
+					if ( (logger.startsWith("com.avajjava.sample")&amp;&amp; !logger.startsWith("com.avajjava.sample.config"))
+					&amp;&amp; !logger.startsWith("com.avajjava.sample.batch")
+					&amp;&amp; !(message.startsWith("==>") || message.startsWith("&lt;=="))
+					&amp;&amp; !logger.startsWith("com.avajjava.sample.external.develop")
+					&amp;&amp; !logger.startsWith("com.avajjava.sample.maintenance")){
+						return true;
+					}
+					return false;
+				</expression>
+			</evaluator>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %highlight(%-5level) %yellow(%-40logger{40})[%cyan(%-25method):%cyan(%-4line)] %yellow(%msg) %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [com.avajjava.sample.*] Develop Console Log(SQL) -->
+	<appender name="CONSOLE-DEVELOP-AVAJ-SQL" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+				<expression>
+					if ( logger.startsWith("com.avajjava.sample")
+					&amp;&amp; (message.startsWith("==>") || message.startsWith("&lt;=="))
+					&amp;&amp; !logger.startsWith("com.avajjava.sample.batch")
+					&amp;&amp; !logger.startsWith("com.avajjava.sample.external.develop")
+					&amp;&amp; !logger.startsWith("com.avajjava.sample.maintenance")
+					){
+						return true;
+					}
+					return false;
+				</expression>
+			</evaluator>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %highlight(%-5level) %boldMagenta(%-40logger{40})[%cyan(%-25method):%cyan(%-4line)] %boldMagenta(%msg) %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [org.elasticsearch.client.RestClient] Develop Console Log(REST) -->
+	<appender name="CONSOLE-DEVELOP-REST" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+				<expression>
+					if (logger.startsWith("org.elasticsearch.client.RestClient")){
+						return true;
+					}
+					return false;
+				</expression>
+			</evaluator>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %highlight(%-5level) %boldBlue(%-40logger{40})[%cyan(%-25method):%cyan(%-4line)] %boldBlue(%msg) %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [com.avajjava.sample.batch*] Develop Console Log(BATCH) -->
+	<appender name="CONSOLE-DEVELOP-AVAJ-BATCH" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+				<expression>
+					if ( logger.startsWith("com.avajjava.sample.batch") ){
+						return true;
+					}
+					return false;
+				</expression>
+			</evaluator>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %highlight(%-5level) %boldBlue(%-40logger{40})[%boldBlue(%-25method):%boldBlue(%-4line)] %boldBlue(%msg) %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [com.avajjava.sample.external.develop.*, com.avajjava.sample.maintenance.*] Develop Console Log(DEVELOP) -->
+	<appender name="CONSOLE-DEVELOP-AVAJ-DEVELOP" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+				<expression>
+					if ( logger.startsWith("com.avajjava.sample.external.develop")
+					|| logger.startsWith("com.avajjava.sample.maintenance")
+					){
+						return true;
+					}
+					return false;
+				</expression>
+			</evaluator>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %highlight(%-5level) %gray(%-40logger{40}) [%gray(%-25method):%gray(%-4line)] %gray(%msg) %n</pattern>
+		</encoder>
+	</appender>
+
+
+
+	<!-- File Log -->
+<!--	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--		<file>${LOG_PATH_NAME}.log</file>-->
+<!--		<append>true</append>-->
+<!--		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--			&lt;!&ndash; daily rollover &ndash;&gt;-->
+<!--			<fileNamePattern>${LOG_PATH_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--				&lt;!&ndash; or whenever the file size reaches 50MB &ndash;&gt;-->
+<!--				<maxFileSize>50MB</maxFileSize>-->
+<!--			</timeBasedFileNamingAndTriggeringPolicy>-->
+<!--			&lt;!&ndash; keep 30 days' worth of history &ndash;&gt;-->
+<!--			<maxHistory>30</maxHistory>-->
+<!--		</rollingPolicy>-->
+<!--		<encoder>-->
+<!--			<charset>UTF-8</charset>-->
+<!--			<pattern>[%d] [%-5level] %-40logger{40}[%method:%line] - %msg %n</pattern>-->
+<!--		</encoder>-->
+<!--	</appender>-->
+
+
+
+
+
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//	[Logger] Avaj
+	//
+	//////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<logger name="com.avajjava.sample">
+		<level value="DEBUG"/>
+	</logger>
+
+	<!-- 개발툴 엑세스로그 보기 -->
+	<!--    <logger name="com.avajjava.sample.config">-->
+	<!--        <level value="trace"/>-->
+	<!--    </logger>-->
+
+
+
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//	[Logger] springframework설정은 application.yml에서 해야되는거 같다.
+	//
+	//////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<logger name="org.springframework">
+		<level value="INFO"/>
+	</logger>
+
+    <logger name="org.springframework.boot">
+        <level value="INFO"/>
+    </logger>
+
+	<logger name="org.springframework.web">
+		<level value="INFO"/>
+	</logger>
+
+	<!--Displays @Responbody result; set ERROR to increase performance-->
+	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor">
+		<level value="ERROR"/>
+	</logger>
+
+
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//	[Logger] ETC...
+	//
+	//////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<logger name="org.apache">
+		<level value="ERROR"/>
+	</logger>
+
+	<logger name="java.sql.Connection">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="java.sql.PreparedStatement">
+		<level value="ERROR"/>
+	</logger>
+
+	<logger name="java.sql.ResultSet">
+		<level value="ERROR"/>
+	</logger>
+
+	<logger name="java.lang.Class">
+		<level value="DEBUG"/>
+	</logger>
+
+	<logger name="org.mybatis">
+		<level value="DEBUG"/>
+	</logger>
+
+	<logger name="com.zaxxer.hikari">
+		<level value="INFO"/>
+	</logger>
+
+
+
+	<logger name="com.mchange.v2">
+		<level value="DEBUG"/>
+	</logger>
+
+	<logger name="org.quartz">
+		<level value="INFO"/>
+	</logger>
+
+
+
+	<logger name="org.thymeleaf">
+		<level value="INFO"/>
+	</logger>
+
+	<logger name="jdbc" level="OFF"/>
+
+	<logger name="jdbc.sqlonly" level="INFO" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="jdbc.sqltiming" level="ERROR" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="jdbc.resultsettable" level="ERROR" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+
+
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//	[Logger] root
+	//
+	//////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<root>
+		<level value="DEBUG" />
+		<!--<appender-ref ref="CONSOLE" />-->
+		<!--<appender-ref ref="FILE" />-->
+
+		<!-- /////////////// -->
+		<!-- /// Develop /// -->
+		<!-- /////////////// -->
+		<appender-ref ref="CONSOLE-DEVELOP" />
+		<appender-ref ref="CONSOLE-DEVELOP-WEB" />
+		<appender-ref ref="CONSOLE-DEVELOP-REST" />
+		<appender-ref ref="CONSOLE-DEVELOP-AVAJ" />
+		<appender-ref ref="CONSOLE-DEVELOP-AVAJ-SQL" />
+		<appender-ref ref="CONSOLE-DEVELOP-AVAJ-BATCH" />
+		<appender-ref ref="CONSOLE-DEVELOP-AVAJ-DEVELOP" />
+	</root>
+
+</configuration>

@@ -1,0 +1,46 @@
+buildscript {
+	ext {
+		application_name = 'mock-and-rest-docs'
+		springboot_version = '2.1.7.RELEASE'
+		springRestDocs_version = "2.0.4.RELEASE"
+		groovy_version = '2.3.11'
+	}
+	repositories {
+		mavenCentral()
+		mavenLocal()
+		maven { url 'http://repo.spring.io/milestone' }
+		maven { url 'https://repo.spring.io/snapshot' }
+		maven { url "https://jitpack.io" }
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springboot_version}"
+	}
+}
+
+wrapper {
+	gradleVersion = '4.10.3'
+}
+
+subprojects {
+	apply plugin: 'idea'
+	apply plugin: 'maven'
+	apply plugin: 'groovy'
+	apply plugin: 'java'
+
+	group = 'com.avajjava'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '1.8'
+
+	[compileGroovy, compileTestGroovy, compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+	configurations.all {
+		resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+	}
+
+	repositories {
+		mavenCentral()
+		maven { url 'http://repo.spring.io/milestone' }
+		maven { url "https://jitpack.io" }
+	}
+
+}

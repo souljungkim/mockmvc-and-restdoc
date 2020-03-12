@@ -1,0 +1,47 @@
+plugins {
+	id "org.asciidoctor.convert" version "1.5.9.2"
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor {
+	dependsOn test
+	inputs.dir snippetsDir
+	sourceDir = file('src/main/asciidoc')
+	sources { include '*.adoc' }
+	outputDir = file('build/docs')
+}
+
+
+
+//task makeDocs(type: Copy) {
+jar {
+	dependsOn asciidoctor
+	from("${asciidoctor.outputDir}/html5"){
+		into 'templates/docs'
+	}
+}
+
+
+
+
+dependencies {
+
+	/** Core **/
+	if (rootProject.findProject('avaj-core'))
+		compile project(':avaj-core')
+
+	/** Test **/
+	compile "junit:junit:4.12"
+	compile 'commons-codec:commons-codec:1.9'
+	compile "org.springframework.boot:spring-boot-starter-test:${springboot_version}"
+	compile "org.springframework.restdocs:spring-restdocs-mockmvc:${springRestDocs_version}"
+    asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:${springRestDocs_version}"
+
+}

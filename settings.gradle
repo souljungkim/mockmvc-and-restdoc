@@ -1,0 +1,96 @@
+rootProject.name = 'springboot-mockmvc-restdoc'
+
+enum AVAJ_PRODUCT {
+    NONE,
+    DEFAULT,
+    AVAJ_MODULE_1,
+    AVAJ_MODULE_2
+}
+
+/********** 1. 제품코드를 선택하세요. **********/
+/**************************************************
+ *
+ *  1) 기본적으로는 gradle.properties 참조
+ *
+ *  2) command-line에서는
+ *      gradle {TASK} -Pmode={PRODUCT_CODES...}
+ *
+ **************************************************/
+AVAJ_PRODUCT[] codes = getProperty('mode').split(',').collect{ AVAJ_PRODUCT.valueOf(it.trim().toUpperCase()) }.toArray()
+
+setupProduct( codes )
+
+/********** 2. 의존성파일을 refresh 해주세요. **********/
+//- 인텔리J: [Gradle]에서 auto-import 설정시 자동
+//- 터미날 : ./gradlew build --refresh-dependencies
+
+/********** 3. 적용된 프로젝트(모듈)들을 확인하세요. **********/
+//- 인텔리J: [Gradle]에서 확인
+//- 터미날 : ./gradlew projects
+
+/********** 4. 즐거운 시간 되세요. :D **********/
+
+
+
+
+
+/**************************************************
+ ***** Setup Modules
+ **************************************************/
+void setupProduct(AVAJ_PRODUCT... modes){
+    printLog modes
+    include 'avaj-core'
+    include 'avaj-core-config'
+    include 'avaj-core-mybatis'
+    include 'avaj-core-mock'
+    include 'avaj-starter'
+
+    if (modes.contains(AVAJ_PRODUCT.DEFAULT)){
+        include 'avaj-engine-service'
+    }
+    if (modes.contains(AVAJ_PRODUCT.AVAJ_MODULE_1)){
+        includeIfExists 'avaj-module-1'
+    }
+    if (modes.contains(AVAJ_PRODUCT.AVAJ_MODULE_2)){
+        includeIfExists 'avaj-module-2'
+    }
+}
+
+
+
+
+
+/**************************************************
+ ***** Print title
+ **************************************************/
+static void printLog(AVAJ_PRODUCT... mode){
+    println """
+    ###########################################################################
+    ######################### Avaj - ${mode}
+    ###########################################################################
+    """
+}
+
+/**************************************************
+ ***** Checking A and include A
+ **************************************************/
+void includeIfExists(String... moduleNames){
+    for (String moduleName in moduleNames){
+        if (!file("./${moduleName}").exists())
+            continue
+        include moduleName
+        println " +module (${moduleName}) "
+    }
+}
+
+/**************************************************
+ ***** Checking A and include B
+ **************************************************/
+void includeIfExists(String moduleName, List<String> specificModuleList){
+    if (!file("./${moduleName}").exists())
+        return
+    specificModuleList.each{
+        include it
+    }
+    println " +module (${moduleName}) "
+}

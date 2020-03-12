@@ -1,0 +1,119 @@
+= RESTful Books API Guide
+Sinna Jaemisseo;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+:operation-http-request-parameters: Example request-parameter
+:operation-http-response-fields: Example response Fields
+
+
+
+[[resources-books]]
+== Test Documents
+
+The Books resources is used to create and list books
+
+테스트 한글
+
+테스트 테스트 테스트 문서다.
+
+자자자짠
+
+
+
+
+
+[[get]]
+=== 1. Test - GET
+
+Oing Ttoing  Get
+
+operation::mock-and-rest-docs-test-controller-test/test-get[snippets='curl-request,request-parameters,http-response,response-fields']
+
+include::{snippets}/mock-and-rest-docs-test-controller-test/test-get/http-request.adoc[]
+---
+
+
+
+
+
+[[get-with-path-parameters]]
+=== 1-2. Test - GET with path parameters
+
+Ohayo! olla?  Path Parameter?
+
+operation::mock-and-rest-docs-test-controller-test/test-get-with-path-parameters[snippets='path-parameters,curl-request,request-parameters,http-response,response-fields']
+---
+
+
+
+
+[[get-with-header]]
+=== 1-3. Test - GET with header
+
+Hi Hello Annyeong Header?
+
+operation::mock-and-rest-docs-test-controller-test/test-get-with-header[snippets='curl-request,request-parameters,http-response,response-fields']
+---
+
+
+
+
+[[post]]
+=== 2. Test - POST
+
+Post Post? What is post? hohohaha
+
+operation::mock-and-rest-docs-test-controller-test/test-post[snippets='curl-request,request-parameters,http-response,response-fields']
+---
+
+
+
+
+
+[[put]]
+=== 3. Test - PUT
+
+Put Put Put Put :)
+
+operation::mock-and-rest-docs-test-controller-test/test-put[snippets='curl-request,request-parameters,http-response,response-fields']
+---
+
+
+
+
+
+[[delete]]
+=== 4. Test - DELETE
+
+What do you want to delete? What? What? WEhat?Asdflk;ajewsf????!!!
+
+operation::mock-and-rest-docs-test-controller-test/test-delete[snippets='curl-request,request-parameters,http-response,response-fields']
+---
+
+
+
+
+
+[[upload-and-download]]
+=== 4. Test - Upload
+
+Upload like this !
+
+operation::mock-and-rest-docs-test-controller-test/test-upload-with-multipart[snippets='curl-request,request-parts,request-part-metadata-fields,request-parameters,http-response,response-fields']
+---
+
+
+
+
+
+=== 4-2. Test - Download
+
+Download like this !
+
+operation::mock-and-rest-docs-test-controller-test/test-download[snippets=curl-request,request-parameters,http-response,response-fields']

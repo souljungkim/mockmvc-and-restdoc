@@ -1,0 +1,38 @@
+= Test Documents for Other Module
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+It can also check test code result
+and generate documents on other modules
+
+
+
+[[start]]
+== REST API for something
+
+
+
+
+[[search]]
+=== 1. Search Something
+테스트를 통과한 Request와 Response 데이터를 바탕으로 정보를 보여주게 된다.
+
+그렇다그렇다 테스트테스트
+
+operation::api-data-rest-controller-test/search-something[snippets='http-request,http-response,request-parameters,response-fields']
+
+
+
+
+
+
+[[data-map]]
+=== 2. Data List for something
+`데이터맵`을 표현하기 위한 데이터를 제공하는 API를 마구잡이로 아무렇게나 어쩌고저쩌고다`
+
+
+operation::api-data-rest-controller-test/get-data-list-for-something[snippets='http-request,http-response,request-parameters,response-fields']
