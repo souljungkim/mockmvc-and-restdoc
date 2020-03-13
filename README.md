@@ -12,7 +12,7 @@
   
 -------------------------  
 ### 1. Use this custom test module
-`:avaj-core-mock`, It provides RestDocs and MockMVC.
+[:avaj-core-mock](https://github.com/souljungkim/mockmvc-and-restdoc/tree/master/avaj-core-mock), It provides RestDocs and MockMVC.
 
 1. You can check and test sample here: 
     - target controller:
@@ -31,9 +31,9 @@
     
 -------------------------
 ### 2. Let's set it up in another module
-It can be applied to other modules using `:avaj-core-mock`.
+It can be applied to other modules using [:avaj-core-mock](https://github.com/souljungkim/mockmvc-and-restdoc/tree/master/avaj-core-mock).
 
-You can check how to setup other modules in `:avaj-engine-service` 
+You can check how to setup other modules in [:avaj-engine-service](https://github.com/souljungkim/mockmvc-and-restdoc/tree/master/avaj-engine-service) 
 
 1. Setup MockMVC and RestDocs 
     - `avaj-engine-service/build.gradle`
